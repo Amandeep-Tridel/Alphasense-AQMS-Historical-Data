@@ -1,0 +1,16 @@
+sensor,param,value,units,source
+H2S-B4,S20,2025.0,nA/ppm,Certificate nominal (1450-2600)
+H2S-B4,we_zero_20,-35.0,nA,Certificate nominal (-250..+200)
+H2S-B4,isb_gain,0.056,mV/nA,000-0ISB-00 0-20 ppm gain
+H2S-B4,WE_e,250.0,mV,ISB electronic zero offset
+H2S-B4,AE_e,248.0,mV,ISB electronic zero offset
+NH3-B1,S20,52.0,nA/ppm,Certificate nominal (20-80)
+NH3-B1,zero_ppm,-1.5,ppm,Clean air zero (-10..+10)
+NH3-B1,gain,0.39,mV/nA,810-0016-01 target gain per RFQ
+NH3-B1,WE_e,450.0,mV,810-0016-01 450 mV pedestal per RFQ
+NH3-B1,xs_h2s,-2.0,ppm/ppm,Datasheet cross-sensitivity
+NH3-B1,xs_so2,-3.0,ppm/ppm,Datasheet cross-sensitivity
+PIDX-A-040,v_zero,62.0,mV,Datasheet offset (40-100 mV)
+PIDX-A-040,mv_per_ppm,55.0,mV/ppm,Datasheet sensitivity (55 mV/ppm)
+PIDX-A-040,t_cal,25.0,C,Calibration reference temperature
+PIDX-A-040,p_cal,1013.25,hPa,Calibration reference pressure

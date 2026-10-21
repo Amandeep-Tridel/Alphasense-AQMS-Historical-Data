@@ -1,0 +1,46 @@
+Metadata file,,
+Content,"Ammonia emissions measurements of a wastewater treatment plant, Switzerland",
+Authors,"Valach*, A.C., Häni, C., Bühler, M., Mohn, J., Schrade, S., and Kupper, T.",
+contact,alex.valach@bfh.ch,
+Version date,13/06/2023,
+,,
+,,
+,,
+Variables,,
+Name,Unit,Description
+date,,date with time starting in format YYYY-mm-dd HH:MM:ss (timezone UTC + 1)
+SourceArea,m2,total area of the emission source 
+CE,s/m,C/E is the simulated concentration to emission rate 
+CE_se,s/m,standard error of C/E
+N_TD,#,number of trajectory touchdowns within the source area
+Ustar,m/s,u* ist the friction velocity
+L,m,Monin-Obukhov length
+Zo,m,surface roughness
+wd,°,wind direction 0-360 degrees from north
+d ,m,zero plane displacement height
+z_canopy,m,canopy height
+U_sonic,m/s,horizontal wind speed measured by the sonic anemometer
+sUu,unitless,standard deviation (sigma) of the horizontal wind velocity (u) divided by u*
+sVu,unitless,standard deviation (sigma) of the crosswind velocity (v) divided by u*
+sWu,unitless,standard deviation (sigma) of the vertical wind velocity (w) divided by u*
+z_sWu,m,measurement height of the sonic anemometer 
+NH3,ppm,downwind ammonia concentration as measured by the miniDOAS
+NH3_bgd,ppm,upwind ammonia concentration as measured by the miniDOAS
+dC_NH3,ppm,difference between the downwind and upwind ammonia concentration measurements
+Q_NH3,kg NH3-N / day,ammonia emissions without deposition correction
+Q_NH3_gh,g NH3-N / h,ammonia emissions without deposition correction
+Q_NH3_dep_gh,g NH3-N / h,ammonia emissions with maximum deposition correction
+Q_NH3_gh_mean,g NH3-N / h,mean of ammonia emissions with no deposition and maximum deposition
+Rb,s2/m,boundary layer resistance
+vDep,m/s2,maximum deposition velocity (assumption of Rc = 0)
+vDep_mean,m/s2,averaged deposition velocity of maximum and no deposition
+lat,°,latitude
+lon,°,longitude
+ws,m/s,wind speed
+ta,°C,air temperature
+rh,%,relative humidity
+pa,hPa,surface air pressure
+precip_mmh,mm/h,precipitation rate
+rnet,W/m2,incoming radiation
+ph,,pH
+mix_all,,"indicator for timing of slurry tank agitation (0 = inactive, 1 = active)"

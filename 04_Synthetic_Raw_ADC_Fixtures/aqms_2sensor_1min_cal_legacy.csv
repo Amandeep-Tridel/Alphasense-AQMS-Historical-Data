@@ -1,0 +1,40 @@
+sensor,param,value,units,source
+H2S-B4-A,S20,2462.6448,nA/ppm,"per-unit, would be on cal cert"
+H2S-B4-A,we_zero_20,140.7181,nA,"per-unit, would be on cal cert"
+H2S-B4-A,isb_gain,0.056,mV/nA,"per-unit, would be on cal cert"
+H2S-B4-A,WE_e,261.7848,mV,"per-unit, would be on cal cert"
+H2S-B4-A,AE_e,299.8107,mV,"per-unit, would be on cal cert"
+NH3-B1-A,S20,74.9468,nA/ppm,per-unit
+NH3-B1-A,zero_ppm,-2.9584,ppm,per-unit
+NH3-B1-A,gain,2.2,mV/nA,per-unit
+NH3-B1-A,WE_e,280.3512,mV,per-unit
+NH3-B1-A,xs_h2s,-2.0,ppm/ppm,per-unit
+NH3-B1-A,xs_so2,-3.0,ppm/ppm,per-unit
+PIDX-A-040-A,v_zero,59.5187,mV,per-unit
+PIDX-A-040-A,mv_per_ppm,51.2241,mV/ppm,per-unit
+PIDX-A-040-A,t_cal,25.0,C,per-unit
+PIDX-A-040-A,p_cal,1013.25,hPa,per-unit
+H2S-B4-B,S20,2401.594,nA/ppm,"per-unit, would be on cal cert"
+H2S-B4-B,we_zero_20,-200.6968,nA,"per-unit, would be on cal cert"
+H2S-B4-B,isb_gain,0.056,mV/nA,"per-unit, would be on cal cert"
+H2S-B4-B,WE_e,258.9819,mV,"per-unit, would be on cal cert"
+H2S-B4-B,AE_e,212.4821,mV,"per-unit, would be on cal cert"
+NH3-B1-B,S20,33.062,nA/ppm,per-unit
+NH3-B1-B,zero_ppm,7.2127,ppm,per-unit
+NH3-B1-B,gain,2.2,mV/nA,per-unit
+NH3-B1-B,WE_e,233.6328,mV,per-unit
+NH3-B1-B,xs_h2s,-2.0,ppm/ppm,per-unit
+NH3-B1-B,xs_so2,-3.0,ppm/ppm,per-unit
+PIDX-A-040-B,v_zero,50.9331,mV,per-unit
+PIDX-A-040-B,mv_per_ppm,58.8933,mV/ppm,per-unit
+PIDX-A-040-B,t_cal,25.0,C,per-unit
+PIDX-A-040-B,p_cal,1013.25,hPa,per-unit
+H2S-B4-*,n_T@-30C,1.45,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@-20C,1.42,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@-10C,1.36,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@0C,1.3,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@10C,1.24,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@20C,1.2,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@30C,1.18,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@40C,1.22,-,FIXTURE TRUTH - not Alphasense data
+H2S-B4-*,n_T@50C,1.32,-,FIXTURE TRUTH - not Alphasense data

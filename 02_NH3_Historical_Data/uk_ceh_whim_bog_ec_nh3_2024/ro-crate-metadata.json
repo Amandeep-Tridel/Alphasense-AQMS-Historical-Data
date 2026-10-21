@@ -1,0 +1,296 @@
+{
+"@context": "https://w3id.org/ro/crate/1.2/context",
+"@graph": [
+{
+"@type": "CreativeWork",
+"@id": "ro-crate-metadata.json",
+"conformsTo": { "@id": "https://w3id.org/ro/crate/1.2" },
+"about": { "@id": "https://catalogue.ceh.ac.uk/id/941b50a7-877e-48a9-921b-13003dfc1cd5" }
+},
+{
+"@type":"Dataset",
+"name":"NH3 measurements and meteorological parameters from six miniaturized sensors and a Picarro NH3 analyzer collected at 1-minute intervals, Whim Bog, July to August 2024",
+"@id": "https://catalogue.ceh.ac.uk/id/941b50a7-877e-48a9-921b-13003dfc1cd5",
+"identifier": {"@id": "https://doi.org/10.5285/941b50a7-877e-48a9-921b-13003dfc1cd5"},
+"citation":"Espina-Martín, P., Leeson, S.R., Nicoll, R., Pearson, C., Martin Hernandez, C., Mullinger, N.J., Yeung, K., Twigg, M., Deshpande, A., Jones, M.R., Braban, C.F., Costello, H., Spelman, G., Redon, N. (2026). NH3 measurements and meteorological parameters from six miniaturized sensors and a Picarro NH3 analyzer collected at 1-minute intervals, Whim Bog, July to August 2024. NERC EDS Environmental Information Data Centre. (Dataset). https://doi.org/10.5285/941b50a7-877e-48a9-921b-13003dfc1cd5",
+"hasPart": [
+{"@id":
+"data/1min_meteo_nh3_whimbog.csv"
+} ,
+{"@id":
+"supporting-documents/whimbogsensors_meteo_nh3_supdoc.docx"
+} ],
+"description":"This file contains 1-min resolution data for Whim Bog NH3 release system activation, wind speed and direction as well as NH3 concentrations, temperature and relative humidity (RH) (not all sensors have them) from six miniaturized NH3 sensors, five were electrochemical-based (TB600B-NH3-10, ECtox-50-NH3, PS1-10-NH3 and the AM1 LC and AM2 HC) and one chemiresistive (MELBA) measured between July 2024 and August 2024. The NH3 concentrations were compared against an spectroscopic Picarro G2103 NH3 analyzer, to assess their feasability in outdoor monitoring conditions, under both ambient and high NH3 concentration levels. This work was funded through a UKRI SBRI call, project reference number 10109717.",
+"isAccessibleForFree": true,
+"datePublished":"2026-06-12",
+"keywords": [
+"high time resolution"
+,
+"miniaturized sensors"
+,
+"Whim Bog"
+,
+{"@type": "DefinedTerm","@id": "http://onto.nerc.ac.uk/CEHMD/topic/1","name": "Agriculture" }
+,
+{"@type": "DefinedTerm","@id": "http://www.eionet.europa.eu/gemet/concept/375","name": "ammonia","inDefinedTermSet": "https://www.eionet.europa.eu/gemet/" }
+],
+"creator": [
+{"@id": "https://orcid.org/0000-0001-7995-1033"},
+{"@id": "https://orcid.org/0009-0001-3132-3473"},
+{"@id": "#creator2"},
+{"@id": "https://orcid.org/0000-0003-3274-1586"},
+{"@id": "https://orcid.org/0009-0003-9594-0299"},
+{"@id": "https://orcid.org/0000-0002-3148-6950"},
+{"@id": "https://orcid.org/0009-0006-0400-3980"},
+{"@id": "https://orcid.org/0000-0002-5462-3348"},
+{"@id": "https://orcid.org/0000-0002-2095-1271"},
+{"@id": "https://orcid.org/0000-0002-2006-8809"},
+{"@id": "https://orcid.org/0000-0003-4275-0152"},
+{"@id": "#creator11"},
+{"@id": "#creator12"},
+{"@id": "https://orcid.org/0000-0001-5195-3010"}
+],
+"temporalCoverage":[
+"2024-07-24/2024-08-28" ],
+"spatialCoverage": [ {"@id": "#bbox0"}],
+"funding": [ {"@id": "https://gtr.ukri.org/projects?ref=10109717"}
+],
+"license": {"@id": "https://spdx.org/licenses/OGL-UK-3.0"},
+"distribution": [ {"@id": "#distribution0"}],
+"publisher":{"@id":"https://ror.org/04xw4m193"},
+"provider" : {"@id":"https://ror.org/04xw4m193"},
+"includedInDataCatalog":{ "@id": "#eidc-dataCatalogue"}
+},
+{
+"@id": "#eidc-dataCatalogue",
+"@type":"DataCatalog",
+"name":"Environmental Information Data Centre",
+"alternateName":"EIDC",
+"url":"https://catalogue.ceh.ac.uk/eidc/documents"
+},
+{
+"@id": "https://ror.org/04xw4m193",
+"@type":"Organization",
+"name":"NERC EDS Environmental Information Data Centre",
+"email": "info@eidc.ac.uk"
+}
+,{
+"@id": "https://spdx.org/licenses/OGL-UK-3.0",
+"@type": "CreativeWork",
+"name": "Open Government Licence v3",
+"alternateName":"OGL-UK-3.0",
+"sameAs": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+}
+,{
+"@id": "https://doi.org/10.5285/941b50a7-877e-48a9-921b-13003dfc1cd5",
+"@type":"PropertyValue",
+"propertyID": "https://registry.identifiers.org/registry/doi",
+"value": "10.5285/941b50a7-877e-48a9-921b-13003dfc1cd5",
+"url": "https://doi.org/10.5285/941b50a7-877e-48a9-921b-13003dfc1cd5"
+}
+, {
+"@id": "#bbox0",
+"@type":"Place",
+"geo": {
+"@id": "#geoshape0"
+}
+},
+{
+"@id": "#geoshape0",
+"@type": "GeoShape",
+"box":"-3.316 55.755, -3.236 55.815"
+}
+,
+{
+"@id": "https://orcid.org/0000-0001-7995-1033",
+"@type": "Person",
+"name": "Espina-Martín, P."
+, "familyName": "Espina-Martín"
+, "givenName": "P."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0009-0001-3132-3473",
+"@type": "Person",
+"name": "Leeson, S.R."
+, "familyName": "Leeson"
+, "givenName": "S.R"
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "#creator2",
+"@type": "Person",
+"name": "Nicoll, R."
+, "familyName": "Nicoll"
+, "givenName": "R."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0003-3274-1586",
+"@type": "Person",
+"name": "Pearson, C."
+, "familyName": "Pearson"
+, "givenName": "C."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0009-0003-9594-0299",
+"@type": "Person",
+"name": "Martin Hernandez, C."
+, "familyName": "Martin Hernandez"
+, "givenName": "C."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0002-3148-6950",
+"@type": "Person",
+"name": "Mullinger, N.J."
+, "familyName": "Mullinger"
+, "givenName": "N.J"
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0009-0006-0400-3980",
+"@type": "Person",
+"name": "Yeung, K."
+, "familyName": "Yeung"
+, "givenName": "K."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0002-5462-3348",
+"@type": "Person",
+"name": "Twigg, M."
+, "familyName": "Twigg"
+, "givenName": "M."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0002-2095-1271",
+"@type": "Person",
+"name": "Deshpande, A."
+, "familyName": "Deshpande"
+, "givenName": "A."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0002-2006-8809",
+"@type": "Person",
+"name": "Jones, M.R."
+, "familyName": "Jones"
+, "givenName": "M.R."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "https://orcid.org/0000-0003-4275-0152",
+"@type": "Person",
+"name": "Braban, C.F."
+, "familyName": "Braban"
+, "givenName": "C.F."
+,"affiliation":{
+"@id": "https://ror.org/00pggkr55"
+}
+},
+{
+"@id": "#creator11",
+"@type": "Person",
+"name": "Costello, H."
+, "familyName": "Costello"
+, "givenName": "H."
+,"affiliation":{
+"@type":"Organization",
+"name":"Limosaero Ltd."
+}
+},
+{
+"@id": "#creator12",
+"@type": "Person",
+"name": "Spelman, G."
+, "familyName": "Spelman"
+, "givenName": "G."
+,"affiliation":{
+"@type":"Organization",
+"name":"Limosaero Ltd."
+}
+},
+{
+"@id": "https://orcid.org/0000-0001-5195-3010",
+"@type": "Person",
+"name": "Redon, N."
+, "familyName": "Redon"
+, "givenName": "N."
+,"affiliation":{
+"@id": "https://ror.org/042rh9p26"
+}
+}
+, {
+"@id": "https://gtr.ukri.org/projects?ref=10109717",
+"@type": "MonetaryGrant"
+,"name": "Aerial pollution monitoring with novel sensors and UAVs"
+,"identifier": "10109717"
+,"funder": {"@id": "https://ror.org/05ar5fy68"}
+}
+,{
+"@id": "https://ror.org/05ar5fy68",
+"@type": "Organization"
+,"name": "Innovate UK"
+}
+, {
+"@id":
+"data/1min_meteo_nh3_whimbog.csv"
+,"name": "1min_meteo_nh3_whimbog.csv","@type": "File"
+,"encodingFormat": "text/csv"
+,"sha256": "98f58ead1114e062c082f5beec496257bcd7eba1d984a390044e13aec62efced"
+,"lastModified": "2026-06-12T12:57:12"
+,"bytes": 3442582
+,"contentUrl": "data/1min_meteo_nh3_whimbog.csv"
+}
+, {
+"@id":
+"supporting-documents/whimbogsensors_meteo_nh3_supdoc.docx"
+,"name": "whimbogsensors_meteo_nh3_supdoc.docx","@type": "File"
+,"sha256": "29ec706e27b6c63cbd6c95adea9f44be7b331b55c3c5835c224fc64eae95440c"
+,"lastModified": "2026-06-12T12:57:19"
+,"bytes": 27085
+,"contentUrl": "supporting-documents/whimbogsensors_meteo_nh3_supdoc.docx"
+}
+, {
+"@id": "#distribution0",
+"@type":"DataDownload",
+"contentUrl":"https://data-package.ceh.ac.uk/data/941b50a7-877e-48a9-921b-13003dfc1cd5"
+,"encodingFormat":"application/zip"
+}
+, {
+"@id": "https://ror.org/00pggkr55",
+"@type": "Organization",
+"name": "UK Centre for Ecology & Hydrology",
+"identifier": "https://ror.org/00pggkr55"
+},
+{
+"@id": "https://ror.org/042rh9p26",
+"@type": "Organization",
+"name": "IMT Nord Europe",
+"identifier": "https://ror.org/042rh9p26"
+}
+]
+}
