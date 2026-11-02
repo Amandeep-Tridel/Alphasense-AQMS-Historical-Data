@@ -1,0 +1,30 @@
+{
+  "about": "Templates for the H2S and VOC records. Copy each one into calibration_records.json ONLY after filling every null from that sensor's Alphasense factory calibration sheet. Do not use any value that is not on the factory sheet.",
+  "records": [
+    {
+      "record_id": "CAL-H2S-0001",
+      "station_id": "aqms-monitor",
+      "channel": "H2S",
+      "sensor_model": "H2S-B4",
+      "sensor_serial": null,
+      "factory_sheet_ref": null,
+      "valid_from": null,
+      "we_zero_mv": null,
+      "ae_zero_mv": null,
+      "sensitivity": null,
+      "notes": "From the ISB factory sheet: WE total zero (mV), AE total zero (mV), sensitivity (mV/ppb)."
+    },
+    {
+      "record_id": "CAL-VOC-0001",
+      "station_id": "aqms-monitor",
+      "channel": "VOC",
+      "sensor_model": "PIDX-A-040",
+      "sensor_serial": null,
+      "factory_sheet_ref": null,
+      "valid_from": null,
+      "we_zero_mv": null,
+      "sensitivity": null,
+      "notes": "From the PID factory sheet: zero (mV) goes in we_zero_mv; sensitivity (mV/ppm)."
+    }
+  ]
+}
