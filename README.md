@@ -83,7 +83,7 @@ NH3 (ppm) = (WE - WE zero) / sensitivity                         # sensor 778400
 VOC (ppm) = (V - V zero) / sensitivity                           # AAN 302-04: no temperature correction
 ```
 
-`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Calibration values go in `calibration_records.json`: NH3-B1+ uses its factory sheet 77840031; H2S-B4 and PIDX-A-040 use Alphasense datasheet typical values (H2S zero 350/350 mV and 1.4 mV/ppb from the ISB manual, Table 2; VOC zero 70 mV and 55 mV/ppm from the PIDX datasheet), which are indicative until their factory sheets are added.
+`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Calibration values go in `calibration_records.json`: H2S-B4 uses its factory sheet (WE zero 395 mV, AE zero 362 mV, 1.727952 mV/ppb) and NH3-B1+ its factory sheet 77840031; PIDX-A-040 uses Alphasense datasheet typical values (zero 70 mV, 55 mV/ppm), which are indicative until its factory sheet is added.
 
 ```powershell
 cd 05_Conversion_Algorithms

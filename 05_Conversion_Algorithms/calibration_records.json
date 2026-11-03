@@ -1,5 +1,5 @@
 {
-  "about": "Calibration records for the Dubai test station 'aqms-monitor'. Alphasense values only. NH3 uses its factory calibration sheet (source 'factory'). H2S and VOC use Alphasense datasheet typical values (source 'datasheet') until their factory sheets are available; those readings are indicative. To switch to a factory sheet, add a NEW record with a later valid_from and source 'factory' (see calibration_template_to_fill.json). Never edit an old record.",
+  "about": "Calibration records for the Dubai test station 'aqms-monitor'. Alphasense values only. NH3 and H2S use their factory calibration sheets (source 'factory'). VOC uses Alphasense datasheet typical values (source 'datasheet', indicative) until its factory sheet is available. Each new calibration is a NEW record with a later valid_from; old records are never edited. The H2S datasheet record is kept for history: the factory sheet takes over from 2026-10-02.",
   "records": [
     {
       "record_id": "CAL-NH3-0001",
@@ -41,6 +41,20 @@
       "sensitivity": 55.0,
       "fault_below_mv": 40.0,
       "notes": "Datasheet typical, not this sensor's own sheet: offset voltage 40-100 mV (midpoint 70 mV used); typical sensitivity 55 mV/ppm +/-10%; output signal from 0.040 V, so below 40 mV is a sensor fault. Indicative: about +/-0.55 ppm from the offset range."
+    },
+    {
+      "record_id": "CAL-H2S-0002",
+      "station_id": "aqms-monitor",
+      "channel": "H2S",
+      "sensor_model": "H2S-B4",
+      "sensor_serial": "",
+      "source": "factory",
+      "factory_sheet_ref": "Alphasense H2S-B4 factory calibration sheet",
+      "valid_from": "2026-10-02T00:00:00Z",
+      "we_zero_mv": 395.0,
+      "ae_zero_mv": 362.0,
+      "sensitivity": 1.727952,
+      "notes": "From the factory sheet: WE (OP1, A1) zero 395 mV; AE (OP2, A2) zero 362 mV; sensitivity 1.727952 mV/ppb = 1727.952 mV/ppm. H2S (ppm) = ((OP1 mV - 395) - (OP2 mV - 362)) / 1727.952. Worked example on the sheet: OP1 0.600 V, OP2 0.300 V -> 267 / 1727.952 = 0.1545 ppm. Supersedes CAL-H2S-DS-0001 (datasheet typical)."
     }
   ]
 }
