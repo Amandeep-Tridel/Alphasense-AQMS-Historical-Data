@@ -10,8 +10,10 @@ VOC (ppm) = (V - V zero)   / sensitivity                         PIDX-A-040, ppm
 
 - The H2S line is Alphasense AAN 803-05 Algorithm 3 at 20 °C, where its factor k'T is 1 (AAN 803-05, Table 3). The NH3 line is Algorithm 4 with the AE left out (3-electrode sensor).
 - A channel at ≥ 2550 mV or ≤ 5 mV is stuck (unplugged, no power, shorted): no number (`channel_at_rail`).
-- Temperature correction: `table3_factor` and `aan803_corrected_we` hold AAN 803-05 Algorithms 1–4 and the H2S-B4 Table 3 factors. They need the temperature at the top of the sensor and the ISB electronic offsets; at 20 °C they give the same answer as the plain formula.
-- The VOC line follows Alphasense AAN 302-04: the PID needs no temperature correction. A voltage below V zero means a sensor fault.
+- Temperature correction (needs the temperature at the top of the sensor; at 20 °C nothing changes):
+  - `sensitivity_pct`: sensitivity at that temperature, for all three sensors, from the datasheet charts (H2S-B4 Fig. 1, NH3-B1 Fig. 2, approximate) and, for the PIDX-A-040, the ideal gas law its datasheet states (about 6 % low at 40 °C). Divide by `sensitivity × sensitivity_pct / 100`.
+  - `aan803_factor` + `aan803_corrected_we`: AAN 803-05 Algorithms 1–4 with the H2S-B4 Table 3 factors, for the H2S zero; they also need the ISB electronic offsets. k''T is in nA, so Algorithm 4 multiplies it by the board gain (mV/nA).
+- The VOC line uses the PIDX-A-040 datasheet's zero and sensitivity. Its output follows the ideal gas law (datasheet Fig. 2), so it reads lower when hot; AAN 302-04's "ignore temperature" is about the older PID-A1/PID-AH. A voltage below V zero means a sensor fault.
 - "WE zero" and "AE zero" are the total zero offsets (board offset and sensor zero together).
 
 | File | What it is |
