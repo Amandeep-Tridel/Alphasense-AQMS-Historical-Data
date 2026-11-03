@@ -27,6 +27,11 @@ class FactoryFormulas(unittest.TestCase):
         self.assertAlmostEqual(ff.voc_ppm(150, 40, 55), 2.0)
         self.assertTrue(ff.voc_sensor_fault(30, 40))
 
+    def test_negative_result_counts_as_zero(self):
+        self.assertEqual(ff.no_negative(ff.nh3_ppm(300, 328, 58.624)), 0.0)
+        self.assertEqual(ff.no_negative(1.5), 1.5)
+        self.assertIsNone(ff.no_negative(None))
+
     def test_counts_to_mv_matches_station_volts(self):
         self.assertAlmostEqual(ff.counts_to_mv(6246), 487.97, places=2)
 
