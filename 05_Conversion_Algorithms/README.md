@@ -1,6 +1,6 @@
 # 05 — Conversion formulas: Alphasense calibration values only
 
-Every gas value uses **only an Alphasense zero and sensitivity**: the sensor's own factory calibration sheet where available, otherwise Alphasense's published datasheet typical values (indicative). No temperature tables, no cross-sensitivity corrections, no density correction, no filtering or smoothing. All voltages in mV.
+Every gas value uses **only an Alphasense zero and sensitivity**: the sensor's own factory calibration sheet where available, otherwise Alphasense's published datasheet typical values (indicative). No temperature tables, no cross-sensitivity corrections, no density correction, no filtering or smoothing. **A negative result counts as 0**, also in averages. All voltages in mV.
 
 ```
 H2S (ppb) = ((WE - WE zero) - (AE - AE zero)) / sensitivity     H2S-B4 on ISB
