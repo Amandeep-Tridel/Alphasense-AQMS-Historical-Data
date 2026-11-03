@@ -1,5 +1,5 @@
 {
-  "about": "Factory calibration records for the Dubai test station 'aqms-monitor'. Only values printed on Alphasense factory calibration sheets go here. Today only the NH3 sheet exists. H2S and VOC have no record yet, so Terra shows 'calibration missing' for them until their factory sheets are entered (see calibration_template_to_fill.json). Add a NEW record to change anything; never edit an old one.",
+  "about": "Calibration records for the Dubai test station 'aqms-monitor'. Alphasense values only. NH3 uses its factory calibration sheet (source 'factory'). H2S and VOC use Alphasense datasheet typical values (source 'datasheet') until their factory sheets are available; those readings are indicative. To switch to a factory sheet, add a NEW record with a later valid_from and source 'factory' (see calibration_template_to_fill.json). Never edit an old record.",
   "records": [
     {
       "record_id": "CAL-NH3-0001",
@@ -11,7 +11,36 @@
       "valid_from": "2026-10-01T00:00:00Z",
       "we_zero_mv": 328.0,
       "sensitivity": 58.624,
-      "notes": "From the factory sheet: WE zero 328 mV; sensitivity 73.28 nA/ppm x 0.8 mV/nA (ISB gain) = 58.624 mV/ppm. NH3 (ppm) = (A0 mV - 328) / 58.624. valid_from is the date this record was first used on the test station."
+      "notes": "From the factory sheet: WE zero 328 mV; sensitivity 73.28 nA/ppm x 0.8 mV/nA (ISB gain) = 58.624 mV/ppm. NH3 (ppm) = (A0 mV - 328) / 58.624. valid_from is the date this record was first used on the test station.",
+      "source": "factory"
+    },
+    {
+      "record_id": "CAL-H2S-DS-0001",
+      "station_id": "aqms-monitor",
+      "channel": "H2S",
+      "sensor_model": "H2S-B4",
+      "sensor_serial": "",
+      "source": "datasheet",
+      "factory_sheet_ref": "Alphasense 4-Electrode ISB manual (Issue 7), Table 2: typical B4 sensor with ISB",
+      "valid_from": "2026-10-01T00:00:00Z",
+      "we_zero_mv": 350.0,
+      "ae_zero_mv": 350.0,
+      "sensitivity": 1.4,
+      "notes": "Datasheet typical, not this sensor's own sheet: WE/AE zero 350/350 mV; 1750 nA/ppm x 0.8 mV/nA = 1400 mV/ppm = 1.4 mV/ppb. Indicative: the H2S-B4 datasheet allows a zero current of -250 to +200 nA (about -143 to +114 ppb)."
+    },
+    {
+      "record_id": "CAL-VOC-DS-0001",
+      "station_id": "aqms-monitor",
+      "channel": "VOC",
+      "sensor_model": "PIDX-A-040",
+      "sensor_serial": "",
+      "source": "datasheet",
+      "factory_sheet_ref": "Alphasense PIDX-A-040 datasheet (Doc. Ref. PIDX-A-040/OCT25)",
+      "valid_from": "2026-10-01T00:00:00Z",
+      "we_zero_mv": 70.0,
+      "sensitivity": 55.0,
+      "fault_below_mv": 40.0,
+      "notes": "Datasheet typical, not this sensor's own sheet: offset voltage 40-100 mV (midpoint 70 mV used); typical sensitivity 55 mV/ppm +/-10%; output signal from 0.040 V, so below 40 mV is a sensor fault. Indicative: about +/-0.55 ppm from the offset range."
     }
   ]
 }
