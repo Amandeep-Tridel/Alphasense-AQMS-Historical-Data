@@ -53,8 +53,8 @@ Alphasense_AQMS_Historical_Data/
 │   └── AAN-803-05.pdf
 │
 └── 07_Dubai_Station_Data/                        # REAL: Dubai test station, factory calibration
-    ├── Station_history_factory_calibration.csv   # 6,610 readings (28 Oct - 3 Nov 2026), raw mV + NH3 ppm
-    ├── Station_history_10min_averages_factory_calibration.csv  # 666 ten-minute averages
+    ├── Station_history_factory_calibration.csv   # 6,626 readings (28 Oct - 3 Nov 2026), raw mV + H2S/NH3/VOC
+    ├── Station_history_10min_averages_factory_calibration.csv  # 667 ten-minute averages
     └── README.md                                 # Formulas, columns and summary
 ```
 
@@ -83,7 +83,7 @@ NH3 (ppm) = (WE - WE zero) / sensitivity                         # sensor 778400
 VOC (ppm) = (V - V zero) / sensitivity                           # AAN 302-04: no temperature correction
 ```
 
-`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Factory sheets go in `calibration_records.json`; today only NH3-B1+ 77840031 is entered, so H2S and VOC give no value until their sheets are added.
+`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Calibration values go in `calibration_records.json`: NH3-B1+ uses its factory sheet 77840031; H2S-B4 and PIDX-A-040 use Alphasense datasheet typical values (H2S zero 350/350 mV and 1.4 mV/ppb from the ISB manual, Table 2; VOC zero 70 mV and 55 mV/ppm from the PIDX datasheet), which are indicative until their factory sheets are added.
 
 ```powershell
 cd 05_Conversion_Algorithms

@@ -4,8 +4,8 @@
 
 The Dubai test station sends:  date,time,A0,A1,A2,A3,NA   (volts)
 A0 = NH3 WE, A1 = H2S WE, A2 = H2S AE, A3 = VOC (PID).
-Only factory-sheet values from calibration_records.json are used. A gas without a
-factory sheet gets no value.
+Only Alphasense values from calibration_records.json are used: a factory sheet where
+available, otherwise datasheet typical values (indicative).
 """
 
 import json
@@ -35,14 +35,14 @@ def main():
     s = sheets.get("H2S")
     if s:
         ppb = ff.h2s_ppb(h2s_we_mv, s["we_zero_mv"], h2s_ae_mv, s["ae_zero_mv"], s["sensitivity"])
-        print(f"H2S = {ppb:.1f} ppb  (factory sheet {s['sensor_serial']})")
+        print(f"H2S = {ppb:.1f} ppb  ({s.get('source', 'factory')}: {s['factory_sheet_ref']})")
     else:
-        print("H2S = no value (no factory calibration sheet entered)")
+        print("H2S = no value (no calibration values entered)")
     s = sheets.get("VOC")
     if s:
-        print(f"VOC = {ff.voc_ppm(voc_mv, s['we_zero_mv'], s['sensitivity']):.4f} ppm  (factory sheet {s['sensor_serial']})")
+        print(f"VOC = {ff.voc_ppm(voc_mv, s['we_zero_mv'], s['sensitivity']):.4f} ppm  ({s.get('source', 'factory')}: {s['factory_sheet_ref']})")
     else:
-        print("VOC = no value (no factory calibration sheet entered)")
+        print("VOC = no value (no calibration values entered)")
 
 
 if __name__ == "__main__":
