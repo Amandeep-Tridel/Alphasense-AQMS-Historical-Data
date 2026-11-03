@@ -1,20 +1,6 @@
 {
-  "about": "Templates for the H2S and VOC FACTORY sheets. When a sheet arrives, fill every null from it and add the record to calibration_records.json with a valid_from LATER than the datasheet record, so it takes over from the datasheet typical values. Do not use any value that is not on the factory sheet.",
+  "about": "Template for the VOC (PIDX-A-040) FACTORY sheet. When it arrives, fill every null from it and add the record to calibration_records.json with a valid_from LATER than the datasheet record, so it takes over from the datasheet typical values. Do not use any value that is not on the factory sheet. (The H2S factory sheet has already been entered as CAL-H2S-0002.)",
   "records": [
-    {
-      "record_id": "CAL-H2S-0002",
-      "station_id": "aqms-monitor",
-      "channel": "H2S",
-      "sensor_model": "H2S-B4",
-      "sensor_serial": null,
-      "factory_sheet_ref": null,
-      "valid_from": null,
-      "we_zero_mv": null,
-      "ae_zero_mv": null,
-      "sensitivity": null,
-      "notes": "From the ISB factory sheet: WE total zero (mV), AE total zero (mV), sensitivity (mV/ppb).",
-      "source": "factory"
-    },
     {
       "record_id": "CAL-VOC-0002",
       "station_id": "aqms-monitor",
