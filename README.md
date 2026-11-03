@@ -53,8 +53,9 @@ Alphasense_AQMS_Historical_Data/
 │   └── AAN-803-05.pdf
 │
 └── 07_Dubai_Station_Data/                        # REAL: Dubai test station, site zero + factory sensitivity
-    ├── Station_history_readings.csv              # 7,136 readings (28 Oct - 3 Nov 2026), raw mV + H2S/NH3/VOC
-    ├── Station_history_10min_averages.csv        # 735 ten-minute averages
+    ├── Station_history_readings.csv              # 7,350 readings (28 Oct - 3 Nov 2026), raw mV + H2S/NH3/VOC, Open-Meteo temperature
+    ├── Station_history_10min_averages.csv        # 756 ten-minute averages
+    ├── Open_Meteo_hourly_temperature_Tridel_office.csv  # hourly air temperature used (stand-in for sensor temperature)
     └── README.md                                 # Formulas, columns and summary
 ```
 
