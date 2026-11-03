@@ -30,17 +30,17 @@ def main():
 
     s = sheets.get("NH3")
     if s:
-        ppm = ff.nh3_ppm(nh3_mv, s["we_zero_mv"], s["sensitivity"])
+        ppm = ff.no_negative(ff.nh3_ppm(nh3_mv, s["we_zero_mv"], s["sensitivity"]))
         print(f"NH3 = ({nh3_mv:.2f} - {s['we_zero_mv']:g}) / {s['sensitivity']:g} = {ppm:.4f} ppm  (factory sheet {s['sensor_serial']})")
     s = sheets.get("H2S")
     if s:
-        ppb = ff.h2s_ppb(h2s_we_mv, s["we_zero_mv"], h2s_ae_mv, s["ae_zero_mv"], s["sensitivity"])
+        ppb = ff.no_negative(ff.h2s_ppb(h2s_we_mv, s["we_zero_mv"], h2s_ae_mv, s["ae_zero_mv"], s["sensitivity"]))
         print(f"H2S = {ppb:.1f} ppb  ({s.get('source', 'factory')}: {s['factory_sheet_ref']})")
     else:
         print("H2S = no value (no calibration values entered)")
     s = sheets.get("VOC")
     if s:
-        print(f"VOC = {ff.voc_ppm(voc_mv, s['we_zero_mv'], s['sensitivity']):.4f} ppm  ({s.get('source', 'factory')}: {s['factory_sheet_ref']})")
+        print(f"VOC = {ff.no_negative(ff.voc_ppm(voc_mv, s['we_zero_mv'], s['sensitivity'])):.4f} ppm  ({s.get('source', 'factory')}: {s['factory_sheet_ref']})")
     else:
         print("VOC = no value (no calibration values entered)")
 

@@ -25,9 +25,12 @@ const nh3Ppm = (weMv, weZeroMv, sensitivityMvPerPpm) => (weMv - weZeroMv) / sens
 /** VOC (ppm as isobutylene) = (V - V zero) / sensitivity */
 const vocPpm = (vMv, vZeroMv, sensitivityMvPerPpm) => (vMv - vZeroMv) / sensitivityMvPerPpm;
 
+/** A negative gas result counts as 0 (apply before averaging). */
+const noNegative = (value) => (value === null || value === undefined ? null : Math.max(0, value));
+
 /** A PID voltage below its zero means a faulty sensor, not clean air. */
 const vocSensorFault = (vMv, vZeroMv) => vMv < vZeroMv;
 
-const api = { ADC_FULL_SCALE_MV, ADC_STEPS, countsToMv, h2sPpb, nh3Ppm, vocPpm, vocSensorFault };
+const api = { ADC_FULL_SCALE_MV, ADC_STEPS, countsToMv, h2sPpb, nh3Ppm, vocPpm, noNegative, vocSensorFault };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 if (typeof window !== "undefined") window.FactoryFormulas = api;
