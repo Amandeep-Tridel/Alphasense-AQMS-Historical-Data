@@ -38,10 +38,10 @@ Alphasense_AQMS_Historical_Data/
 │   └── verify_roundtrip.py                       # Round-trip arithmetic validation script
 │
 ├── 05_Conversion_Algorithms/                     # Alphasense FACTORY CALIBRATION ONLY
-│   ├── factory_formulas.py                       # H2S, NH3, VOC formulas using factory-sheet zero + sensitivity
+│   ├── factory_formulas.py                       # H2S, NH3, VOC formulas (zero + factory sensitivity), rail check, AAN 803-05
 │   ├── factory_formulas.js                       # The same formulas in JavaScript
 │   ├── calibration_records.json                  # Factory sheets in use (NH3-B1+ 77840031)
-│   ├── calibration_template_to_fill.json         # Blank H2S / VOC records to fill from their factory sheets
+│   ├── calibration_template_to_fill.json         # Blank VOC record to fill from the PID factory sheet
 │   ├── example_usage.py                          # Converts one real station packet
 │   ├── test_factory_formulas.py                  # Worked-example checks
 │   └── README.md                                 # Formulas and how to use them
@@ -52,9 +52,9 @@ Alphasense_AQMS_Historical_Data/
 │   ├── alphasense_pidx-a-040_datasheet.pdf
 │   └── AAN-803-05.pdf
 │
-└── 07_Dubai_Station_Data/                        # REAL: Dubai test station, factory calibration
-    ├── Station_history_factory_calibration.csv   # 6,626 readings (28 Oct - 3 Nov 2026), raw mV + H2S/NH3/VOC
-    ├── Station_history_10min_averages_factory_calibration.csv  # 667 ten-minute averages
+└── 07_Dubai_Station_Data/                        # REAL: Dubai test station, site zero + factory sensitivity
+    ├── Station_history_readings.csv              # 7,136 readings (28 Oct - 3 Nov 2026), raw mV + H2S/NH3/VOC
+    ├── Station_history_10min_averages.csv        # 735 ten-minute averages
     └── README.md                                 # Formulas, columns and summary
 ```
 
@@ -75,15 +75,15 @@ Alphasense_AQMS_Historical_Data/
 
 ## 3. Quick Start: Converting Raw Readings to Gas Concentrations
 
-**Factory calibration only.** Each gas uses only the zero and sensitivity printed on its Alphasense factory calibration sheet. No temperature tables, no cross-sensitivity corrections, no density correction, no filtering or smoothing (all voltages in mV):
+**Alphasense method only.** Each gas uses a zero and a sensitivity: the sensitivity from its Alphasense factory calibration sheet, the zero from a site zero (the station's clean-air output, AAN 803-05 "Initial calibration"). No temperature tables, no cross-sensitivity corrections, no density correction, no filtering or smoothing (all voltages in mV):
 
 ```
-H2S (ppb) = ((WE - WE zero) - (AE - AE zero)) / sensitivity     # AAN 803-05 Alg. 3 at factory temperature (k'T = 1)
-NH3 (ppm) = (WE - WE zero) / sensitivity                         # sensor 77840031: (mV - 328) / 58.624
+H2S (ppb) = ((WE - WE zero) - (AE - AE zero)) / sensitivity     # AAN 803-05 Alg. 3 at 20 degC (k'T = 1); site zero ((A1 - 458) - (A2 - 359)) / 1.727952
+NH3 (ppm) = (WE - WE zero) / sensitivity                         # AAN 803-05 Alg. 4, no AE; site zero (A0 - 420) / 58.624
 VOC (ppm) = (V - V zero) / sensitivity                           # AAN 302-04: no temperature correction
 ```
 
-`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Calibration values go in `calibration_records.json`: H2S-B4 uses its factory sheet (WE zero 395 mV, AE zero 362 mV, 1.727952 mV/ppb) and NH3-B1+ its factory sheet 77840031; PIDX-A-040 uses Alphasense datasheet typical values (zero 70 mV, 55 mV/ppm), which are indicative until its factory sheet is added.
+`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Calibration values go in `calibration_records.json`: H2S-B4 uses a site zero (458 / 359 mV) with its factory-sheet sensitivity 1.727952 mV/ppb, and NH3-B1+ 77840031 a site zero (420 mV) with its factory-sheet 58.624 mV/ppm (the factory-sheet zeros 395 / 362 and 328 mV are kept as older records); a channel stuck at the ADC rail gives no number; PIDX-A-040 uses Alphasense datasheet typical values (zero 70 mV, 55 mV/ppm), which are indicative until its factory sheet is added.
 
 ```powershell
 cd 05_Conversion_Algorithms
@@ -140,6 +140,6 @@ To replay `04_Synthetic_Raw_ADC_Fixtures/aqms_1sensor_2min_fixture.csv` (or `01_
 
 1. **`H2S-B4` ISB Gain Selection (`000-0ISB-00`):** A standard ppb-gain ISB (`~0.73 mV/nA`) saturates a `2.048 V` ADC at **`~1.4 ppm`**, which rails **48.04%** of the real `campi_flegrei_h2s_b4_real.csv` dataset. Ensure your `000-0ISB-00` boards are populated for ppm/fenceline gain (`~0.056 mV/nA` for 0–20 ppm or `~0.011 mV/nA` for 0–100 ppm).
 2. **`NH3-B1` Bipolar ADC & `450 mV` Pedestal (`810-0016-01`):** Because `NH3-B1` has a `±10 ppm` clean-air zero offset and `< -200%` cross-sensitivity to $\text{H}_2\text{S}$, its output voltage drops below a standard `200–300 mV` offset whenever $\text{H}_2\text{S}$ is present (as seen in `aqms_2sensor_1min_fixture_legacy.csv` where `nh3_A_we_counts` floors at `-32767`). Always read electrochemical channels **bipolar/differentially** and use the `450 mV` pedestal (`aqms_1sensor_2min_fixture.csv`).
-3. **`H2S-B4` uses factory calibration only:** `AAN-803-05.pdf` Table 3 has no H2S temperature row, so no temperature table is used. The conversion is `((WE - WE zero) - (AE - AE zero)) / sensitivity` with the ISB factory sheet values (AAN 803-05 Algorithm 3 at the factory calibration temperature).
+3. **`H2S-B4` and temperature:** AAN 803-05 (JAN23) Table 3 does have H2S-B4 factors, and they matter in Dubai: Algorithm 3's k'T is +1 at 20 °C but −1.2 at 30 °C and above (Table 2 suggests Algorithm 1 for B-type H2S). They are coded in `05_Conversion_Algorithms/factory_formulas.py` but not used yet: they need the temperature at the top of the sensor and the ISB electronic offsets. Until then the conversion is `((WE - WE zero) - (AE - AE zero)) / sensitivity` (Algorithm 3 at 20 °C) with the site zero.
 4. **`NH3-B1` U-Shaped Temperature Curve:** Datasheet Figure 2 shows `NH3-B1` sensitivity follows a U-shaped curve across `-30 °C` to `+50 °C` (rising to `115–135%` at `50 °C`). `generate_1sensor_2min_fixture.py` incorporates this U-shaped curve.
 5. **`PIDX-A-040` Methane Blindness:** A `10.6 eV` PID cannot ionize methane ($\text{CH}_4$, `12.61 eV`), but **does** respond to $\text{H}_2\text{S}$ (`10.45 eV`, $\text{RF} \approx 3.2$) and $\text{NH}_3$ (`10.16 eV`). With factory calibration only, no temperature or pressure correction is applied (Alphasense AAN 302-04).
