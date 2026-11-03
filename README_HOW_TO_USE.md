@@ -46,11 +46,16 @@ Alphasense_AQMS_Historical_Data/
 │   ├── test_factory_formulas.py                  # Worked-example checks
 │   └── README.md                                 # Formulas and how to use them
 │
-└── 06_Datasheets_and_App_Notes/
-    ├── alphasense_h2s-b4_datasheet_0224-final_en_1.pdf
-    ├── alphasense_nh3-b1_datasheet-0526-final_en_1.pdf
-    ├── alphasense_pidx-a-040_datasheet.pdf
-    └── AAN-803-05.pdf
+├── 06_Datasheets_and_App_Notes/
+│   ├── alphasense_h2s-b4_datasheet_0224-final_en_1.pdf
+│   ├── alphasense_nh3-b1_datasheet-0526-final_en_1.pdf
+│   ├── alphasense_pidx-a-040_datasheet.pdf
+│   └── AAN-803-05.pdf
+│
+└── 07_Dubai_Station_Data/                        # REAL: Dubai test station, factory calibration
+    ├── Station_history_factory_calibration.csv   # 6,610 readings (28 Oct - 3 Nov 2026), raw mV + NH3 ppm
+    ├── Station_history_10min_averages_factory_calibration.csv  # 666 ten-minute averages
+    └── README.md                                 # Formulas, columns and summary
 ```
 
 ---
