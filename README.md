@@ -37,14 +37,14 @@ Alphasense_AQMS_Historical_Data/
 │   ├── gen_raw_legacy.py                         # Legacy A/B pair generator script
 │   └── verify_roundtrip.py                       # Round-trip arithmetic validation script
 │
-├── 05_Conversion_Algorithms/
-│   ├── h2s_b4.py                                 # Standalone H2S-B4 conversion (AAN 803-05 Algorithms 1–4)
-│   ├── nh3_b1.py                                 # Standalone NH3-B1 conversion (3-electrode + H2S cross-sensitivity)
-│   ├── pidx_a040.py                              # Standalone PIDX-A-040 conversion (10.6 eV PID + T/P ideal gas law)
-│   ├── example_usage.py                          # 4 worked patterns: single sample, CSV batch, live ADC, MQTT JSON
-│   ├── README_H2S-B4.md                          # Detailed H2S-B4 algorithm & hardware notes
-│   ├── README_NH3-B1.md                          # Detailed NH3-B1 algorithm & hardware notes
-│   └── README_PIDX-A-040.md                      # Detailed PIDX-A-040 algorithm & hardware notes
+├── 05_Conversion_Algorithms/                     # Alphasense FACTORY CALIBRATION ONLY
+│   ├── factory_formulas.py                       # H2S, NH3, VOC formulas using factory-sheet zero + sensitivity
+│   ├── factory_formulas.js                       # The same formulas in JavaScript
+│   ├── calibration_records.json                  # Factory sheets in use (NH3-B1+ 77840031)
+│   ├── calibration_template_to_fill.json         # Blank H2S / VOC records to fill from their factory sheets
+│   ├── example_usage.py                          # Converts one real station packet
+│   ├── test_factory_formulas.py                  # Worked-example checks
+│   └── README.md                                 # Formulas and how to use them
 │
 └── 06_Datasheets_and_App_Notes/
     ├── alphasense_h2s-b4_datasheet_0224-final_en_1.pdf
@@ -64,82 +64,33 @@ Alphasense_AQMS_Historical_Data/
 | **Model realistic outdoor fenceline $\text{NH}_3$ plumes and wind roses** | `02_NH3_Historical_Data/wwtp_fenceline_nh3_real.csv` | **242 30-min measurements** of downwind $\text{NH}_3$ (`median 3.19 ppm`, `max 9.93 ppm`), upwind background $\text{NH}_3$, wind speed/direction, $T$, $\text{RH}$, and pressure at an outdoor wastewater plant. |
 | **Compare low-cost electrochemical $\text{NH}_3$ sensors against a Picarro reference** | `02_NH3_Historical_Data/uk_ceh_whim_bog_ec_nh3_2024/data/` | **1-minute outdoor dataset** (Jul–Aug 2024) of 5 electrochemical $\text{NH}_3$ sensors co-located with a Picarro G2103 analyzer during controlled plume releases. |
 | **Test high-concentration $\text{NH}_3$ alarm thresholds (10–60 ppm)** | `02_NH3_Historical_Data/dairy_source_nh3_clean_celsius.csv` | **661 hourly measurements** (`median 9.95 ppm`, `p95 32.15 ppm`, `max 58.77 ppm`) with timestamps normalized to ISO-8601 UTC and temperature converted to °C. |
-| **Test `PIDX-A-040` VOC conversion, ideal-gas $T/P$ density correction, and baseline drift** | `03_VOC_PID_Historical_Data/pidx_a040_hourly_reference_series.csv` | **720 hourly records** pairing raw `PIDX-A-040` voltage (`0.040–2.85 V`) with isobutylene-equivalent ppm, co-emitted $\text{H}_2\text{S}$/$\text{NH}_3$, $T$, $\text{RH}$, and $P$. |
+| **Test `PIDX-A-040` VOC conversion and baseline drift** | `03_VOC_PID_Historical_Data/pidx_a040_hourly_reference_series.csv` | **720 hourly records** pairing raw `PIDX-A-040` voltage (`0.040–2.85 V`) with isobutylene-equivalent ppm, co-emitted $\text{H}_2\text{S}$/$\text{NH}_3$, $T$, $\text{RH}$, and $P$. |
 
 ---
 
-## 3. Quick Start: Converting Raw ADC Counts to Gas Concentrations
+## 3. Quick Start: Converting Raw Readings to Gas Concentrations
 
-The three Python modules in `05_Conversion_Algorithms/` (`h2s_b4.py`, `nh3_b1.py`, `pidx_a040.py`) have **zero third-party dependencies** (standard library Python 3.9+ only) so you can copy them directly into your logger or backend.
+**Factory calibration only.** Each gas uses only the zero and sensitivity printed on its Alphasense factory calibration sheet. No temperature tables, no cross-sensitivity corrections, no density correction, no filtering or smoothing (all voltages in mV):
 
-### Step 1: Run the Built-In Self-Tests
-Open PowerShell in `05_Conversion_Algorithms/` and run:
-
-```powershell
-cd "C:\Users\BARODA\Desktop\Alphasense_AQMS_Historical_Data\05_Conversion_Algorithms"
-python h2s_b4.py --fixture "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_fixture_legacy.csv" --cal "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_cal_legacy.csv"
-python nh3_b1.py --fixture "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_fixture_legacy.csv" --cal "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_cal_legacy.csv"
-python pidx_a040.py --fixture "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_fixture_legacy.csv" --cal "../04_Synthetic_Raw_ADC_Fixtures/aqms_2sensor_1min_cal_legacy.csv"
+```
+H2S (ppb) = ((WE - WE zero) - (AE - AE zero)) / sensitivity     # AAN 803-05 Alg. 3 at factory temperature (k'T = 1)
+NH3 (ppm) = (WE - WE zero) / sensitivity                         # sensor 77840031: (mV - 328) / 58.624
+VOC (ppm) = (V - V zero) / sensitivity                           # AAN 302-04: no temperature correction
 ```
 
-### Step 2: Convert a Single Reading from Your 1-Sensor-per-Gas Station
+`05_Conversion_Algorithms/factory_formulas.py` (Python 3.9+, no dependencies) and `factory_formulas.js` hold these formulas. Factory sheets go in `calibration_records.json`; today only NH3-B1+ 77840031 is entered, so H2S and VOC give no value until their sheets are added.
+
+```powershell
+cd 05_Conversion_Algorithms
+python example_usage.py
+python -m unittest test_factory_formulas -v
+```
 
 ```python
-import sys
-sys.path.append(r"C:\Users\BARODA\Desktop\Alphasense_AQMS_Historical_Data\05_Conversion_Algorithms")
-
-import h2s_b4
-import nh3_b1
-import pidx_a040
-
-# 1. Load per-sensor calibration constants (matching aqms_1sensor_2min_cal.csv)
-cal_h2s = h2s_b4.Calibration(
-    serial="H2S-B4-01",
-    we_e_mv=250.0,                 # Electronic offset on 000-0ISB-00 board label
-    ae_e_mv=248.0,
-    we_0_mv=-35.0 * 0.056,         # Clean-air zero offset (we_zero_20 * isb_gain)
-    ae_0_mv=(-35.0 / 1.20) * 0.056,
-    sens_mv_per_ppb=2025.0 * 0.056 / 1000.0,  # S20 (nA/ppm) * gain (mV/nA) / 1000
-    adc_fsr_v=2.048,
-    adc_bits=16,
-    adc_bipolar=True,
-)
-
-cal_nh3 = nh3_b1.Calibration(
-    serial="NH3-B1-01",
-    we_e_mv=450.0,                 # 450 mV pedestal on 810-0016-01 board
-    we_0_mv=-1.5 * 52.0 * 0.390,   # Clean-air zero offset (zero_ppm * S20 * gain)
-    sens_mv_per_ppm=52.0 * 0.390,  # S20 (52 nA/ppm) * gain (0.390 mV/nA)
-    xs_h2s_ppm_per_ppm=-2.0,       # Cross-sensitivity to H2S (< -200%)
-    adc_fsr_v=2.048,
-    adc_bits=16,
-    adc_bipolar=True,
-)
-
-cal_voc = pidx_a040.Calibration(
-    serial="PIDX-A-040-01",
-    v_zero_mv=62.0,                # Clean-air zero offset (40–100 mV)
-    mv_per_ppm=55.0,               # Isobutylene sensitivity (~55 mV/ppm)
-    t_cal_c=25.0,
-    p_cal_hpa=1013.25,
-    adc_fsr_v=4.096,
-    adc_bits=16,
-    adc_bipolar=False,
-)
-
-# 2. Convert one 2-minute sample (order matters: compute H2S first so NH3 can subtract H2S interference!)
-head_t_c = 32.4
-p_hpa = 1004.5
-
-res_h2s = h2s_b4.compute(we_counts=6545, ae_counts=4904, temp_c=head_t_c, cal=cal_h2s)
-h2s_ppm = res_h2s.ppb / 1000.0
-
-res_nh3 = nh3_b1.compute(we_counts=8120, temp_c=head_t_c, cal=cal_nh3, h2s_ppm=h2s_ppm)
-res_voc = pidx_a040.compute(counts=1326, temp_c=head_t_c, pressure_hpa=p_hpa, cal=cal_voc)
-
-print(f"H2S: {h2s_ppm:.3f} ppm (usable={res_h2s.usable}, flags={h2s_b4.describe(res_h2s.flags)})")
-print(f"NH3: {res_nh3.ppm:.3f} ppm (usable={res_nh3.usable}, quantitative={res_nh3.quantitative})")
-print(f"VOC: {res_voc.ppm:.3f} ppm isobutylene eq (usable={res_voc.usable})")
+import factory_formulas as ff
+nh3 = ff.nh3_ppm(349.69, 328, 58.624)            # 0.37 ppm  (A0 = 349.69 mV, factory sheet 77840031)
+h2s = ff.h2s_ppb(we_mv, we_zero_mv, ae_mv, ae_zero_mv, sensitivity_mv_per_ppb)   # values from the H2S factory sheet
+voc = ff.voc_ppm(v_mv, v_zero_mv, sensitivity_mv_per_ppm)                         # values from the PID factory sheet
 ```
 
 ---
@@ -176,7 +127,7 @@ To replay `04_Synthetic_Raw_ADC_Fixtures/aqms_1sensor_2min_fixture.csv` (or `01_
    }
    ```
 2. **Always store raw ADC counts alongside converted ppm** (`H2S_WE_CNT`, `H2S_AE_CNT`, `NH3_WE_CNT`, `VOC_CNT`, `HEAD_T`, `PRESSURE`) so that historical series can be recalculated whenever a sensor is re-calibrated.
-3. **Omit unusable readings (`r.usable == False`) rather than sending `0.0`** — sending `0.0` corrupts rolling 10-minute averages and 30-day baselines (`B + 2S / 3S / 4S`).
+3. **Send no value (null) for a reading that has no factory calibration or is invalid, rather than `0.0`** — sending `0.0` corrupts rolling 10-minute averages and 30-day baselines (`B + 2S / 3S / 4S`).
 
 ---
 
@@ -184,6 +135,6 @@ To replay `04_Synthetic_Raw_ADC_Fixtures/aqms_1sensor_2min_fixture.csv` (or `01_
 
 1. **`H2S-B4` ISB Gain Selection (`000-0ISB-00`):** A standard ppb-gain ISB (`~0.73 mV/nA`) saturates a `2.048 V` ADC at **`~1.4 ppm`**, which rails **48.04%** of the real `campi_flegrei_h2s_b4_real.csv` dataset. Ensure your `000-0ISB-00` boards are populated for ppm/fenceline gain (`~0.056 mV/nA` for 0–20 ppm or `~0.011 mV/nA` for 0–100 ppm).
 2. **`NH3-B1` Bipolar ADC & `450 mV` Pedestal (`810-0016-01`):** Because `NH3-B1` has a `±10 ppm` clean-air zero offset and `< -200%` cross-sensitivity to $\text{H}_2\text{S}$, its output voltage drops below a standard `200–300 mV` offset whenever $\text{H}_2\text{S}$ is present (as seen in `aqms_2sensor_1min_fixture_legacy.csv` where `nh3_A_we_counts` floors at `-32767`). Always read electrochemical channels **bipolar/differentially** and use the `450 mV` pedestal (`aqms_1sensor_2min_fixture.csv`).
-3. **`H2S-B4` Missing $n_T$ Table in `AAN 803-05`:** Table 2 of `AAN-803-05.pdf` recommends Algorithm 1 for `H2S-B4`, but Table 3 omits the $\text{H}_2\text{S}$ coefficients. Request the official `H2S-B4` temperature table from Alphasense or characterize zero drift in a temperature chamber up to `50 °C`.
+3. **`H2S-B4` uses factory calibration only:** `AAN-803-05.pdf` Table 3 has no H2S temperature row, so no temperature table is used. The conversion is `((WE - WE zero) - (AE - AE zero)) / sensitivity` with the ISB factory sheet values (AAN 803-05 Algorithm 3 at the factory calibration temperature).
 4. **`NH3-B1` U-Shaped Temperature Curve:** Datasheet Figure 2 shows `NH3-B1` sensitivity follows a U-shaped curve across `-30 °C` to `+50 °C` (rising to `115–135%` at `50 °C`). `generate_1sensor_2min_fixture.py` incorporates this U-shaped curve.
-5. **`PIDX-A-040` Ideal-Gas Density Correction & Methane Blindness:** A `10.6 eV` PID cannot ionize methane ($\text{CH}_4$, `12.61 eV`), but **does** respond to $\text{H}_2\text{S}$ (`10.45 eV`, $\text{RF} \approx 3.2$) and $\text{NH}_3$ (`10.16 eV`). Always apply the ideal-gas temperature and pressure density correction (`±13%` across the operating range).
+5. **`PIDX-A-040` Methane Blindness:** A `10.6 eV` PID cannot ionize methane ($\text{CH}_4$, `12.61 eV`), but **does** respond to $\text{H}_2\text{S}$ (`10.45 eV`, $\text{RF} \approx 3.2$) and $\text{NH}_3$ (`10.16 eV`). With factory calibration only, no temperature or pressure correction is applied (Alphasense AAN 302-04).
