@@ -52,6 +52,16 @@ class FactoryFormulas(unittest.TestCase):
         self.assertAlmostEqual(we_c / 1.727952, ff.h2s_ppb(500, 458, 360, 359, 1.727952))
         self.assertAlmostEqual(ff.table3_factor(ff.H2S_B4_FACTORS[3], 35), -1.2)
 
+    def test_k2t_is_nA_times_board_gain(self):
+        self.assertAlmostEqual(ff.aan803_factor(4, 30, gain_mv_per_na=0.8), -52.0)   # -65 nA x 0.8 mV/nA
+        self.assertIsNone(ff.aan803_factor(4, 30))
+
+    def test_sensitivity_at_temperature(self):
+        self.assertAlmostEqual(ff.sensitivity_pct("H2S-B4", 35), 104.25)                    # datasheet Fig. 1
+        self.assertAlmostEqual(ff.sensitivity_pct("NH3-B1+", 40), 110)                      # datasheet Fig. 2
+        self.assertAlmostEqual(ff.sensitivity_pct("PIDX-A-040", 40), 100 * 293.15 / 313.15)  # ideal gas law
+        self.assertEqual(ff.sensitivity_pct("H2S-B4", 20), 100)
+
 
 if __name__ == "__main__":
     unittest.main()
