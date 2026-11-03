@@ -43,6 +43,11 @@ def voc_ppm(v_mv, v_zero_mv, sensitivity_mv_per_ppm):
     return (v_mv - v_zero_mv) / sensitivity_mv_per_ppm
 
 
+def no_negative(value):
+    """A negative gas result counts as 0 (apply before averaging)."""
+    return None if value is None else max(0.0, value)
+
+
 def voc_sensor_fault(v_mv, v_zero_mv):
     """A PID voltage below its zero means a faulty sensor, not clean air."""
     return v_mv < v_zero_mv
